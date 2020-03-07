@@ -3,22 +3,21 @@
 drop table sars03_data;
 
 create table sars03_data (
-country VARCHAR(255) PRIMARY KEY not null,
+country VARCHAR (255) PRIMARY KEY not null,
 confirmed_sars INT not null,
-death_sars INT not null,
+deaths_sars INT not null,
 recovered_sars INT not null
 );
-
-select * from sars03_data; 
+select * from sars03_data;
 
 drop table ncov19_data;
 
-create table ncov19_data (country VARCHAR(255) PRIMARY KEY not null,
+create table ncov19_data (
+country VARCHAR (255) PRIMARY KEY not null,
 confirmed_ncov INT not null,
 deaths_ncov INT not null,
 recovered_ncov INT not null
 );
-
 select * from ncov19_data;
 
 -- Join tables
@@ -28,11 +27,11 @@ SELECT CASE
 		  ELSE n.country
        END,
 	   confirmed_sars,
-	   death_sars,
+	   deaths_sars,
 	   recovered_sars,
-	   confirmed_ncov,
-	   deaths_ncov,
-	   recovered_ncov
+	   coalesce(confirmed_ncov,0) as confirmed_ncov,
+	   coalesce(deaths_ncov,0) as deaths_ncov,
+	   coalesce(recovered_ncov,0) as recovered_ncov
 FROM sars03_data s
 FULL OUTER JOIN ncov19_data n
 ON s.country=n.country;
