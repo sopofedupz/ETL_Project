@@ -26,9 +26,9 @@ SELECT CASE
           WHEN n.country IS NULL THEN s.country
 		  ELSE n.country
        END,
-	   confirmed_sars,
-	   deaths_sars,
-	   recovered_sars,
+	   coalesce(confirmed_sars,0) as confirmed_sars,
+	   coalesce(deaths_sars,0) as deaths_sars,
+	   coalesce(recovered_sars,0) as recovered_sars,
 	   coalesce(confirmed_ncov,0) as confirmed_ncov,
 	   coalesce(deaths_ncov,0) as deaths_ncov,
 	   coalesce(recovered_ncov,0) as recovered_ncov
